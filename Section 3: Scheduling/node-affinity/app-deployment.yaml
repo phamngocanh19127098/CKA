@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trader
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: trader
+  template:
+    metadata:
+      labels:
+        app: trader
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 50
+              preference:
+                matchExpressions:
+                - key: cpu
+                  operator: In
+                  values:
+                    - "high"
+            - weight: 30
+              preference:
+                matchExpressions:
+                - key: cpu
+                  operator: In
+                  values:
+                    - "medium"
+            - weight: 20
+              preference:
+                matchExpressions:
+                - key: cpu
+                  operator: In
+                  values:
+                    - "normal"
+      containers:
+        - image: trader
+          name: trader
