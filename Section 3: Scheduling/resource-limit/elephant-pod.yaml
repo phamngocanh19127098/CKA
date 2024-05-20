@@ -1,0 +1,131 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2024-05-20T11:08:41Z"
+    name: elephant
+    namespace: default
+    resourceVersion: "1185"
+    uid: 1bf9eec2-e247-4a93-943e-a960754b72bc
+  spec:
+    containers:
+    - args:
+      - --vm
+      - "1"
+      - --vm-bytes
+      - 15M
+      - --vm-hang
+      - "1"
+      command:
+      - stress
+      image: polinux/stress
+      imagePullPolicy: Always
+      name: mem-stress
+      resources:
+        limits:
+          memory: 20Mi
+        requests:
+          memory: 5Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-nlgv2
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: controlplane
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: kube-api-access-nlgv2
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2024-05-20T11:08:43Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2024-05-20T11:08:41Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2024-05-20T11:08:41Z"
+      message: 'containers with unready status: [mem-stress]'
+      reason: ContainersNotReady
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2024-05-20T11:08:41Z"
+      message: 'containers with unready status: [mem-stress]'
+      reason: ContainersNotReady
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2024-05-20T11:08:41Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://60211c9e591c9b9d001a59e7b6a80b64c14d29da55de04da61e2c7e2060e339c
+      image: docker.io/polinux/stress:latest
+      imageID: docker.io/polinux/stress@sha256:b6144f84f9c15dac80deb48d3a646b55c7043ab1d83ea0a697c09097aaad21aa
+      lastState:
+        terminated:
+          containerID: containerd://60211c9e591c9b9d001a59e7b6a80b64c14d29da55de04da61e2c7e2060e339c
+          exitCode: 1
+          finishedAt: "2024-05-20T11:10:08Z"
+          reason: OOMKilled
+          startedAt: "2024-05-20T11:10:08Z"
+      name: mem-stress
+      ready: false
+      restartCount: 4
+      started: false
+      state:
+        waiting:
+          message: back-off 1m20s restarting failed container=mem-stress pod=elephant_default(1bf9eec2-e247-4a93-943e-a960754b72bc)
+          reason: CrashLoopBackOff
+    hostIP: 192.18.228.3
+    hostIPs:
+    - ip: 192.18.228.3
+    phase: Running
+    podIP: 10.42.0.10
+    podIPs:
+    - ip: 10.42.0.10
+    qosClass: Burstable
+    startTime: "2024-05-20T11:08:41Z"
+kind: List
+metadata:
+  resourceVersion: ""

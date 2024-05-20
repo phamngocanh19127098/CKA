@@ -1,0 +1,7 @@
+cat /var/lib/kubelet/config.yaml 
+
+check staticPodPath: /etc/kubernetes/manifests
+
+ nano /etc/kubernetes/manifests/static-pod-nginx.yaml
+
+ systemctl restart kubelet
