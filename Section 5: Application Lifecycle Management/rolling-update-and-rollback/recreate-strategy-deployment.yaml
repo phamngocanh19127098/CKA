@@ -1,0 +1,66 @@
+apiVersion: v1
+items:
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "2"
+    creationTimestamp: "2024-05-21T15:03:15Z"
+    generation: 2
+    name: frontend
+    namespace: default
+    resourceVersion: "1058"
+    uid: 7fdc80c1-38c0-4654-bb80-14d90b1f6f6b
+  spec:
+    minReadySeconds: 20
+    progressDeadlineSeconds: 600
+    replicas: 4
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        name: webapp
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          name: webapp
+      spec:
+        containers:
+        - image: kodekloud/webapp-color:v2
+          imagePullPolicy: IfNotPresent
+          name: simple-webapp
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 4
+    conditions:
+    - lastTransitionTime: "2024-05-21T15:03:46Z"
+      lastUpdateTime: "2024-05-21T15:03:46Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2024-05-21T15:03:15Z"
+      lastUpdateTime: "2024-05-21T15:08:08Z"
+      message: ReplicaSet "frontend-dbb8f4b47" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 2
+    readyReplicas: 4
+    replicas: 4
+    updatedReplicas: 4
+kind: List
+metadata:
+  resourceVersion: ""
