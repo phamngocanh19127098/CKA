@@ -1,0 +1,13 @@
+ETCDCTL_API=3 etcdctl --endpoints https://192.11.207.9:2379 --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key --cac
+ert=/etc/kubernetes/pki/etcd/ca.crt snapshot save /opt/snapshot-p
+re-boot.db
+
+ ETCDCTL_API=3 etcdctl --data-dir /var/lib/etcd-backup snapshot restore /opt
+/snapshot-pre-boot.db 
+
+ETCDCTL_API=3 etcdctl --endpoints https://192.11.38.23:2379
+ --key=/etc/etcd/pki/etcd-key.pem 
+ --cacert=/etc/etcd/pki/ca.pem
+ --cert=/etc/etcd/pki/etcd.pem member list
+
+ nano /etc/systemd/system/etcd.service
