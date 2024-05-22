@@ -1,0 +1,2 @@
+kubectl create serviceaccount dashboard-sa
+kubectl create token dashboard-sa
