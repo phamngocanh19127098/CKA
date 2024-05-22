@@ -1,0 +1,5 @@
+cat akshay.csr | base64 -w 0
+
+kubectl certificate approve akshay
+
+kubectl certificate deny agent-smith
